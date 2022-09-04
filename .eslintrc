@@ -1,0 +1,12 @@
+{
+  "extends": ["eslint:recommended", "plugin:hydrogen/recommended"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["hydrogen"],
+  "rules": {}
+}
