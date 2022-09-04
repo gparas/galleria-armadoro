@@ -10,17 +10,29 @@ const FeaturedCollections = () => {
   });
 
   return (
-    <section className="w-full gap-4 md:gap-8 grid p-6 md:p-8 lg:p-12">
-      <h2 className="whitespace-pre-wrap max-w-prose font-bold text-lead">
-        Collections
-      </h2>
-      <div className="grid-flow-row grid gap-2 gap-y-6 md:gap-4 lg:gap-6 grid-cols-1 false  sm:grid-cols-3 false false">
-        {menu.items.map((item) => {
+    <section className="relative overflow-hidden h-screen">
+      <article className="absolute left-0 right-0 top-0 bottom-0 overflow-y-auto snap-y snap-mandatory scroll-smooth">
+        {menu.items.map((item, index) => {
           return (
-            <FeaturedCollection key={item.id} collectionId={item.resourceId} />
+            <section
+              key={item.id}
+              id={`section-${index}`}
+              className="h-screen snap-start"
+            >
+              <FeaturedCollection collectionId={item.resourceId} />
+            </section>
           );
         })}
-      </div>
+      </article>
+      <nav className="absolute flex justify-center bottom-8 w-full">
+        {menu.items.map((item, index) => {
+          return (
+            <a key={item.id} href={`#section-${index}`} className="px-2">
+              {item.title}
+            </a>
+          );
+        })}
+      </nav>
     </section>
   );
 };
@@ -32,6 +44,7 @@ const QUERY = gql`
     menu(handle: "featured-collections") {
       items {
         id
+        title
         resourceId
       }
     }

@@ -1,4 +1,4 @@
-import { Link, gql, useShopQuery, CacheLong } from "@shopify/hydrogen";
+import { Link, Image, gql, useShopQuery, CacheLong } from "@shopify/hydrogen";
 
 const FeaturedCollection = ({ collectionId }) => {
   const {
@@ -11,7 +11,9 @@ const FeaturedCollection = ({ collectionId }) => {
     },
   });
   return (
-    <Link to={`/collections/${collection.handle}`}>{collection.title}</Link>
+    <Link to={`/collections/${collection.handle}`} className="w-full h-full">
+      <Image data={collection.image} className="w-full h-full object-cover" />
+    </Link>
   );
 };
 
@@ -22,6 +24,11 @@ const QUERY = gql`
     collection(id: $id) {
       title
       handle
+      image {
+        id
+        url(transform: { crop: CENTER, maxHeight: 1080, maxWidth: 1920 })
+        altText
+      }
     }
   }
 `;
