@@ -1,5 +1,6 @@
 import { gql, useShopQuery, CacheLong } from "@shopify/hydrogen";
 import FeaturedCollection from "./FeaturedCollection.server";
+import Nav from "./Nav.client";
 
 const FeaturedCollections = () => {
   const {
@@ -8,30 +9,21 @@ const FeaturedCollections = () => {
     query: QUERY,
     cache: CacheLong(),
   });
-
   return (
-    <section className="relative overflow-hidden h-screen">
-      <article className="absolute left-0 right-0 top-0 bottom-0 overflow-y-auto snap-y snap-mandatory scroll-smooth">
+    <section className="relative overflow-hidden flex flex-col h-screen">
+      <article className="overflow-y-auto snap-y snap-mandatory scroll-smooth flex-auto">
         {menu.items.map((item, index) => {
           return (
-            <section
+            <FeaturedCollection
               key={item.id}
-              id={`section-${index}`}
-              className="h-screen snap-start"
-            >
-              <FeaturedCollection collectionId={item.resourceId} />
-            </section>
+              collectionId={item.resourceId}
+              index={index}
+            />
           );
         })}
       </article>
-      <nav className="absolute flex justify-center bottom-8 w-full">
-        {menu.items.map((item, index) => {
-          return (
-            <a key={item.id} href={`#section-${index}`} className="px-2">
-              {item.title}
-            </a>
-          );
-        })}
+      <nav className="fixed flex justify-center bottom-8 w-full">
+        <Nav items={menu.items} />
       </nav>
     </section>
   );

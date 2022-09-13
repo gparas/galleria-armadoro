@@ -1,6 +1,7 @@
-import { Link, Image, gql, useShopQuery, CacheLong } from "@shopify/hydrogen";
+import { gql, useShopQuery, CacheLong } from "@shopify/hydrogen";
+import Section from "./Section.client";
 
-const FeaturedCollection = ({ collectionId }) => {
+const FeaturedCollection = ({ collectionId, index }) => {
   const {
     data: { collection },
   } = useShopQuery({
@@ -10,11 +11,7 @@ const FeaturedCollection = ({ collectionId }) => {
       id: collectionId,
     },
   });
-  return (
-    <Link to={`/collections/${collection.handle}`} className="w-full h-full">
-      <Image data={collection.image} className="w-full h-full object-cover" />
-    </Link>
-  );
+  return <Section collection={collection} index={index} />;
 };
 
 export default FeaturedCollection;
@@ -28,6 +25,8 @@ const QUERY = gql`
         id
         url(transform: { crop: CENTER, maxHeight: 1080, maxWidth: 1920 })
         altText
+        width
+        height
       }
     }
   }
